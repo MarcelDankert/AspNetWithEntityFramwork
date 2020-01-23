@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EfCoreClassDesignTech
 {
-    // 1:n Beziehung zwischen SchoolClass und Student
+    // 1:n relation between SchoolClass and Student
     class SchoolClass
     {
         [Key]
@@ -15,7 +15,7 @@ namespace EfCoreClassDesignTech
         public List<Student> Students { get; set; }
     }
 
-    // n:m Beziehung zwischen Course und Student => Assoziationsklasse Student_Course
+    // n:m relation between Course and Student => association class Student_Course
     class Course
     {
         [Key]
@@ -27,6 +27,7 @@ namespace EfCoreClassDesignTech
 
     }
 
+    //  association class
     class Student_Course
     {
         [Key]
@@ -35,6 +36,9 @@ namespace EfCoreClassDesignTech
         public int CourseId { get; set; }
     }
 
+    /// <summary>
+    /// Class <c>Exam</c> depends on Course and Student
+    /// </summary>
     class Exam
     {
         [Key]
@@ -63,17 +67,17 @@ namespace EfCoreClassDesignTech
     /// </summary>
     class SchoolDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // Connection string for database
-            optionsBuilder.UseSqlServer(@"Server=MCL-DESKTOP-HOM\SQLEXPRESS;Database=EFCoreSchool;Trusted_Connection=True;");
-        }
-
         public DbSet<Course> Courses { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<SchoolClass> SchoolClasses { get; set; }
         public DbSet<Student_Course> Student_Courses { get; set; }
         public DbSet<Exam> Exams { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            // Connection string for database
+            optionsBuilder.UseSqlServer(@"Server=MCL-DESKTOP-HOM\SQLEXPRESS;Database=EFCoreSchool;Trusted_Connection=True;");
+        }
 
 
         class Program
@@ -81,7 +85,7 @@ namespace EfCoreClassDesignTech
 
             static void Main(string[] args)
             {
-                Console.WriteLine("Hello World!");
+                // TODO Insert awesome code here....
             }
         }
     }

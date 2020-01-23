@@ -33,14 +33,15 @@ namespace EFCoreFirstApp
     /// </summary>
     class EFCoreOrganizationDb:DbContext
     {
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Connection string for database
             optionsBuilder.UseSqlServer(@"Server=MCL-DESKTOP-HOM\SQLEXPRESS;Database=EFCoreOrganization;Trusted_Connection=True;");
         }
 
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<Employee> Employees { get; set; }
     }
 
     class Program

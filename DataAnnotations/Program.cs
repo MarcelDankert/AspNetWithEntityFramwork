@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace DataAnnotations
 {
@@ -78,19 +79,81 @@ namespace DataAnnotations
 
             using (ShopDbContext shopDbContext = new ShopDbContext())
             {
-                // create some entities
-                Author tomate = new Author() { FirstName = "Tom", LastName = "Ate" };
-                Author marcel = new Author() { FirstName = "Marcel", LastName = "Dankert" };
+                #region Create
+                //// create some entities
+                //Author tomate = new Author() { FirstName = "Tom", LastName = "Ate" };
+                //Author marcel = new Author() { FirstName = "Marcel", LastName = "Dankert" };
+                //Author albertros = new Author() { FirstName = "Albert", LastName = "Tross" };
+                //Author samurai = new Author() { FirstName = "Sam", LastName = "Urai" };
+                //Author vielfrass = new Author() { FirstName = "Phil", LastName = "Frass" };
+                //Author marterpfahl = new Author() { FirstName = "Marta", LastName = "Pfahl" };
+                //List<Author> authors = new List<Author> { albertros, samurai, vielfrass, marterpfahl };
 
-                // add entities to database like this
-                shopDbContext.Authors.Add(tomate);
-                shopDbContext.SaveChanges();
-                // or like this
-                shopDbContext.Add<Author>(marcel);
-                shopDbContext.SaveChanges();
+                //List<Book> books =
+                List<string> creativeBookTitles = new List<string> {
+                    "Lorem","ipsum","dolor","sit","amet, ","consetetur","sadipscing","elitr, ","sed",
+                    "diam","nonumy","eirmod","tempor","invidunt","ut","labore","et","dolore","magna",
+                    "aliquyam","erat, ","sed","diam","voluptua.","At","vero","eos","et","accusam","et",
+                    "justo","duo","dolores","et","ea","rebum.","Stet","clita","kasd","gubergren, ","no",
+                    "sea","takimata","sanctus","est","Lorem","ipsum","dolor","sit","amet.","Lorem","ipsum",
+                    "dolor","sit","amet, ","consetetur","sadipscing","elitr, ","sed","diam","nonumy","eirmod",
+                    "tempor","invidunt","ut","labore","et","dolore","magna","aliquyam","erat, ","sed","diam",
+                    "voluptua.","At","vero","eos","et","accusam","et","justo","duo","dolores","et","ea","rebum.",
+                    "Stet","clita","kasd","gubergren, ","no","sea","takimata","sanctus","est","Lorem","ipsum",
+                    "dolor","sit","amet." };
 
-                // read entities from database
-                shopDbContext.Authors.Find(3);
+                Author author = shopDbContext.Authors.Find(7);
+                Book book = new Book() { BookName = "Book", PricePerUnit = 12.34, Author = author, CreatedOn = new DateTime() };
+                shopDbContext.Add<Book>(book);
+
+                //shopDbContext.AddRange(creativeBookTitles.Select(name =>
+                //  new Book
+                //  {
+                //      BookName = name,
+                //      PricePerUnit = (new Random().Next(100, 10000) / 100),
+                //      Author = author,
+                //      AuthorId = author.AuthorId
+                //  })
+                //);
+
+                //// add entities to database like this
+                //shopDbContext.Authors.Add(tomate);
+                //shopDbContext.SaveChanges();
+                //// or like this
+                //shopDbContext.Add<Author>(marcel);
+                //shopDbContext.AddRange(authors);
+                shopDbContext.SaveChanges();
+                #endregion
+
+                #region Read
+
+                #endregion
+
+                #region Update
+                //Author author4 = shopDbContext.Authors.Find(4);
+                //author4.FirstName = "Marty";
+                //author4.LastName = "McFly";
+                //shopDbContext.Update<Author>(author4);
+                //shopDbContext.SaveChanges(); 
+                #endregion
+
+                #region Delete
+                //// read entities from database
+                //Author author0 = shopDbContext.Authors.Find(1);
+                //Author author1 = shopDbContext.Authors.Find(2);
+
+                //// remove entities from database like this
+                //shopDbContext.Authors.Remove(author0);
+                ////shopDbContext.SaveChanges();
+                //// or like this
+                //shopDbContext.Remove<Author>(author1);
+                //shopDbContext.SaveChanges(); 
+                #endregion
+
+
+
+
+
             }
 
         }
