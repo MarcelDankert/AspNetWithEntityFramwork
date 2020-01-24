@@ -40,10 +40,6 @@ namespace DataAnnotations
         [Required]
         public double PricePerUnit { get; set; }
 
-        [Column(Order = 3)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime CreatedOn { get; set; }
-
         [Column(Order = 4)]
         [ForeignKey("BookAuthor")]
         public int AuthorId { get; set; }
@@ -80,16 +76,15 @@ namespace DataAnnotations
             using (ShopDbContext shopDbContext = new ShopDbContext())
             {
                 #region Create
-                //// create some entities
-                //Author tomate = new Author() { FirstName = "Tom", LastName = "Ate" };
-                //Author marcel = new Author() { FirstName = "Marcel", LastName = "Dankert" };
-                //Author albertros = new Author() { FirstName = "Albert", LastName = "Tross" };
-                //Author samurai = new Author() { FirstName = "Sam", LastName = "Urai" };
-                //Author vielfrass = new Author() { FirstName = "Phil", LastName = "Frass" };
-                //Author marterpfahl = new Author() { FirstName = "Marta", LastName = "Pfahl" };
-                //List<Author> authors = new List<Author> { albertros, samurai, vielfrass, marterpfahl };
+                // create some entities
+                Author tomate = new Author() { FirstName = "Tom", LastName = "Ate" };
+                Author marcel = new Author() { FirstName = "Marcel", LastName = "Dankert" };
+                Author albertros = new Author() { FirstName = "Albert", LastName = "Tross" };
+                Author samurai = new Author() { FirstName = "Sam", LastName = "Urai" };
+                Author vielfrass = new Author() { FirstName = "Phil", LastName = "Frass" };
+                Author marterpfahl = new Author() { FirstName = "Marta", LastName = "Pfahl" };
+                List<Author> authors = new List<Author> { albertros, samurai, vielfrass, marterpfahl };
 
-                //List<Book> books =
                 List<string> creativeBookTitles = new List<string> {
                     "Lorem","ipsum","dolor","sit","amet, ","consetetur","sadipscing","elitr, ","sed",
                     "diam","nonumy","eirmod","tempor","invidunt","ut","labore","et","dolore","magna",
@@ -102,26 +97,36 @@ namespace DataAnnotations
                     "Stet","clita","kasd","gubergren, ","no","sea","takimata","sanctus","est","Lorem","ipsum",
                     "dolor","sit","amet." };
 
-                Author author = shopDbContext.Authors.Find(7);
-                Book book = new Book() { BookName = "Book", PricePerUnit = 12.34, Author = author, CreatedOn = new DateTime() };
-                shopDbContext.Add<Book>(book);
+                Author author = new Author() 
+                { 
+                    FirstName = "Ned", 
+                    LastName = "Flenders", 
+                    Books =  new List<Book>
+                    {
 
-                //shopDbContext.AddRange(creativeBookTitles.Select(name =>
-                //  new Book
-                //  {
-                //      BookName = name,
-                //      PricePerUnit = (new Random().Next(100, 10000) / 100),
-                //      Author = author,
-                //      AuthorId = author.AuthorId
-                //  })
-                //);
+                        new Book { BookName = "Intro to Java", PricePerUnit = new Random().Next(100, 10000) / 100 },
+                        new Book { BookName = "Intro to PHP", PricePerUnit = new Random().Next(100, 10000) / 100 },
+                        new Book { BookName = "Intro to Python", PricePerUnit = new Random().Next(100, 10000) / 100 }
+                    }
+                };
 
-                //// add entities to database like this
-                //shopDbContext.Authors.Add(tomate);
-                //shopDbContext.SaveChanges();
-                //// or like this
-                //shopDbContext.Add<Author>(marcel);
-                //shopDbContext.AddRange(authors);
+                Author author1 = shopDbContext.Authors.Find(6);
+
+                author1.Books.AddRange(new List<Book>
+                    {
+
+                        new Book { BookName = "Intro to Java", PricePerUnit = new Random().Next(100, 10000) / 100 },
+                        new Book { BookName = "Intro to PHP", PricePerUnit = new Random().Next(100, 10000) / 100 },
+                        new Book { BookName = "Intro to Python", PricePerUnit = new Random().Next(100, 10000) / 100 }
+                    }
+                );
+
+                // add entities to database like this
+                shopDbContext.Authors.Add(tomate);
+                shopDbContext.SaveChanges();
+                // or like this
+                shopDbContext.Add<Author>(author1);
+                shopDbContext.AddRange(authors);
                 shopDbContext.SaveChanges();
                 #endregion
 
