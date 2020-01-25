@@ -23,7 +23,12 @@ namespace DataAnnotations
 
         [NotMapped]
         public string FullName { get { return FirstName + " " + LastName; } }
-        public List<Book> Books { get; set; }
+        public virtual List<Book> Books { get; set; }
+
+        public Author()
+        {
+            this.Books = new List<Book>();
+        }
     }
 
     [Table("Book")]
@@ -112,15 +117,15 @@ namespace DataAnnotations
 
                 Author author1 = shopDbContext.Authors.Find(6);
 
-                author1.Books.AddRange(new List<Book>
-                    {
+                List<Book> myBooks = creativeBookTitles.Select(name =>
+                  new Book
+                  {
+                      BookName = name,
+                      PricePerUnit = new Random().Next(100, 10000) / 100,
+                      Author = author1
+                  }).ToList();
 
-                        new Book { BookName = "Intro to Java", PricePerUnit = new Random().Next(100, 10000) / 100 },
-                        new Book { BookName = "Intro to PHP", PricePerUnit = new Random().Next(100, 10000) / 100 },
-                        new Book { BookName = "Intro to Python", PricePerUnit = new Random().Next(100, 10000) / 100 }
-                    }
-                );
-
+                shopDbContext.Books.AddRange(myBooks);
                 // add entities to database like this
                 shopDbContext.Authors.Add(tomate);
                 shopDbContext.SaveChanges();
