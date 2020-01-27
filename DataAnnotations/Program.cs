@@ -29,6 +29,10 @@ namespace DataAnnotations
         {
             this.Books = new List<Book>();
         }
+        public override string ToString()
+        {
+            return $"AuthorId: {AuthorId},\nFirstName: {FirstName},\nLastName: {LastName},\nBooks: {Books}\n\n";
+        }
     }
 
     [Table("Book")]
@@ -51,6 +55,10 @@ namespace DataAnnotations
 
         public Author Author { get; set; }
 
+        public override string ToString()
+        {
+            return $"BookId: {BookId},\nBookName: {BookName},\nPricePerUnit: {PricePerUnit}\n\n";
+        }
     }
 
     /// <summary>
@@ -81,62 +89,93 @@ namespace DataAnnotations
             using (ShopDbContext shopDbContext = new ShopDbContext())
             {
                 #region Create
-                // create some entities
-                Author tomate = new Author() { FirstName = "Tom", LastName = "Ate" };
-                Author marcel = new Author() { FirstName = "Marcel", LastName = "Dankert" };
-                Author albertros = new Author() { FirstName = "Albert", LastName = "Tross" };
-                Author samurai = new Author() { FirstName = "Sam", LastName = "Urai" };
-                Author vielfrass = new Author() { FirstName = "Phil", LastName = "Frass" };
-                Author marterpfahl = new Author() { FirstName = "Marta", LastName = "Pfahl" };
-                List<Author> authors = new List<Author> { albertros, samurai, vielfrass, marterpfahl };
+                //// create some entities
+                //Author tomate = new Author() { FirstName = "Tom", LastName = "Ate" };
+                //Author marcel = new Author() { FirstName = "Marcel", LastName = "Dankert" };
+                //Author albertros = new Author() { FirstName = "Albert", LastName = "Tross" };
+                //Author samurai = new Author() { FirstName = "Sam", LastName = "Urai" };
+                //Author vielfrass = new Author() { FirstName = "Phil", LastName = "Frass" };
+                //Author marterpfahl = new Author() { FirstName = "Marta", LastName = "Pfahl" };
+                //List<Author> authors = new List<Author> { albertros, samurai, vielfrass, marterpfahl };
 
-                List<string> creativeBookTitles = new List<string> {
-                    "Lorem","ipsum","dolor","sit","amet, ","consetetur","sadipscing","elitr, ","sed",
-                    "diam","nonumy","eirmod","tempor","invidunt","ut","labore","et","dolore","magna",
-                    "aliquyam","erat, ","sed","diam","voluptua.","At","vero","eos","et","accusam","et",
-                    "justo","duo","dolores","et","ea","rebum.","Stet","clita","kasd","gubergren, ","no",
-                    "sea","takimata","sanctus","est","Lorem","ipsum","dolor","sit","amet.","Lorem","ipsum",
-                    "dolor","sit","amet, ","consetetur","sadipscing","elitr, ","sed","diam","nonumy","eirmod",
-                    "tempor","invidunt","ut","labore","et","dolore","magna","aliquyam","erat, ","sed","diam",
-                    "voluptua.","At","vero","eos","et","accusam","et","justo","duo","dolores","et","ea","rebum.",
-                    "Stet","clita","kasd","gubergren, ","no","sea","takimata","sanctus","est","Lorem","ipsum",
-                    "dolor","sit","amet." };
+                //List<string> creativeBookTitles = new List<string> {
+                //    "Lorem","ipsum","dolor","sit","amet, ","consetetur","sadipscing","elitr, ","sed",
+                //    "diam","nonumy","eirmod","tempor","invidunt","ut","labore","et","dolore","magna",
+                //    "aliquyam","erat, ","sed","diam","voluptua.","At","vero","eos","et","accusam","et",
+                //    "justo","duo","dolores","et","ea","rebum.","Stet","clita","kasd","gubergren, ","no",
+                //    "sea","takimata","sanctus","est"};
 
-                Author author = new Author() 
-                { 
-                    FirstName = "Ned", 
-                    LastName = "Flenders", 
-                    Books =  new List<Book>
-                    {
+                //// create new author with some new books
+                //Author author = new Author()
+                //{
+                //    FirstName = "Ned",
+                //    LastName = "Flenders",
+                //    Books = new List<Book>
+                //    {
 
-                        new Book { BookName = "Intro to Java", PricePerUnit = new Random().Next(100, 10000) / 100 },
-                        new Book { BookName = "Intro to PHP", PricePerUnit = new Random().Next(100, 10000) / 100 },
-                        new Book { BookName = "Intro to Python", PricePerUnit = new Random().Next(100, 10000) / 100 }
-                    }
-                };
+                //        new Book { BookName = "Intro to Java", PricePerUnit = new Random().Next(100, 10000) / 100 },
+                //        new Book { BookName = "Intro to PHP", PricePerUnit = new Random().Next(100, 10000) / 100 },
+                //        new Book { BookName = "Intro to Python", PricePerUnit = new Random().Next(100, 10000) / 100 }
+                //    }
+                //};
+                //shopDbContext.Add<Author>(author);
+                //shopDbContext.SaveChanges();
 
-                Author author1 = shopDbContext.Authors.Find(6);
+                //// Add new books to existing authors => Don't forget to update
+                //foreach (var a in shopDbContext.Authors.ToList())
+                //{
+                //    shopDbContext.Books.AddRange(creativeBookTitles.Select(name =>
+                //    new Book
+                //    {
+                //      BookName = name,
+                //      PricePerUnit = new Random().Next(100, 10000) / 100,
+                //      Author = a
+                //    }).ToList());
+                //    shopDbContext.Update(a);
+                //}
 
-                List<Book> myBooks = creativeBookTitles.Select(name =>
-                  new Book
-                  {
-                      BookName = name,
-                      PricePerUnit = new Random().Next(100, 10000) / 100,
-                      Author = author1
-                  }).ToList();
-
-                shopDbContext.Books.AddRange(myBooks);
-                // add entities to database like this
-                shopDbContext.Authors.Add(tomate);
-                shopDbContext.SaveChanges();
-                // or like this
-                shopDbContext.Add<Author>(author1);
-                shopDbContext.AddRange(authors);
-                shopDbContext.SaveChanges();
+                //// add entities to database like this
+                //shopDbContext.Authors.Add(tomate);
+                //shopDbContext.SaveChanges();
+                //// or like this
+                //shopDbContext.AddRange(authors);
+                //shopDbContext.SaveChanges();
                 #endregion
 
                 #region Read
+                // SELECT COUNT(*) FROM Books
+                //int NumberOfBooks = shopDbContext.Books.Count();
+                //Console.WriteLine("Number of Books {0}: ", NumberOfBooks);
 
+                //// SELECT * FROM Books WHERE PricerPerUnit < 20
+                //List<Book> cheapBooks = shopDbContext.Books.Where(x => x.PricePerUnit < 20).ToList();
+                //cheapBooks.ForEach(Console.WriteLine);
+
+                // SELECT * FROM Books WHERE Author.AuthorId == 5
+                //List<Book> authorFive = shopDbContext.Books.Where(x => x.AuthorId == 5).ToList();
+                //Console.WriteLine("Books from author {0}:", shopDbContext.Authors.Find(5).FullName);
+                //authorFive.ForEach(Console.WriteLine);
+
+                //// SELECT * FROM Books WHERE Author.FirstName == 'Tom'
+                //List<Book> authorTom = shopDbContext.Books.Where(x => x.Author.FirstName.Equals("Tom")).ToList();
+                //Console.WriteLine("Books from author Tom:");
+                //authorTom.ForEach(Console.WriteLine);
+
+                //  SELECT * FROM Books WHERE Author.AuthorId == (SELECT AuthorId FROM Books WHERE Author.FirstName == 'Tom')
+                int authorId = shopDbContext.Authors.Where(x => x.FirstName.Equals("Ned")).FirstOrDefault().AuthorId;
+                List<Book> authorNed = shopDbContext.Books.Where(x => x.AuthorId == authorId).ToList();
+                // both steps from above in one line
+                authorNed = shopDbContext.Books.Where(x => x.AuthorId == shopDbContext.Authors.Where(x => x.FirstName.Equals("Ned")).FirstOrDefault().AuthorId).ToList();
+                
+                //It's also possible to search for the firstname directly. Entity Framework is doing an inner join to get the id.
+                // SELECT [b].[BookId], [b].[AuthorId], [b].[BookName], [b].[PricePerUnit]
+                // FROM[Book] AS[b]
+                // INNER JOIN[Author] AS[a] ON[b].[AuthorId] = [a].[AuthorId]
+                // WHERE[a].[FirstName] = N'Ned'
+                authorNed = shopDbContext.Books.Where(x => x.Author.FirstName.Equals("Ned")).ToList();
+
+                Console.WriteLine("Books from author Ned:");
+                authorNed.ForEach(Console.WriteLine);
                 #endregion
 
                 #region Update
